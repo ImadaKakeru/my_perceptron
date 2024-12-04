@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from trajectory import make_trajectory
 def readGT(file_path):
     column = ['x', 'y']
     csv = pd.read_csv(file_path)
@@ -13,6 +14,9 @@ def readGT(file_path):
     # print(gt_y)
     gt = np.stack((gt_x, gt_y), axis=1)
     print(gt)
+    make_trajectory(gt)
+
+
 
 
 def readResult(file_path):
@@ -27,3 +31,5 @@ def readResult(file_path):
 
     result = np.stack((result_x, result_y), axis=1)
     print(result)
+
+    make_trajectory(result)
