@@ -134,3 +134,22 @@ def strip_plot(data1, data2):
     plt.show()
     fig1.savefig("./all_result.png")
     fig2.savefig("./no_outliers_result.png")
+
+
+def plotLoss(loss_list):
+
+    plt.plot(range(len(loss_list)),loss_list, color='red', label='loss')
+    plt.legend()
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.show()
+
+def plotLossPerEpoch(loss_list):
+    epochs = []
+    for i in range(len(loss_list)):
+        epochs.append((i+1)*10)
+
+    plt.plot(epochs, loss_list, color='red', label='loss')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.show()

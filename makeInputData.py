@@ -46,6 +46,7 @@ def make_input_data(positions, ground_truth):
         correct_data.append(ground_truth[i+3])
 
     input_data = np.array(input_data)
+    flattened_input = [part.flatten() for part in input_data]
     correct_data = np.array(correct_data)
 
-    return input_data, correct_data
+    return flattened_input, correct_data
