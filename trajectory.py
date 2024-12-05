@@ -15,5 +15,4 @@ def make_trajectory(positions_in_image):
         trajectory.append(point[:])
 
     trajectory = np.array(trajectory)
-    print(trajectory)
-    return
+    return trajectory
