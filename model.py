@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-
-
+from tqdm import tqdm
+import copy
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -27,3 +27,37 @@ def get_Model():
 
     return model, criterion, optimizer, device
 
+def train(train_loader, model, criterion, optimizer, device, epochNum):
+    model.train()
+    running_loss = 0.0
+    models = []
+    loss_list = []
+
+    for i in tqdm(range(epochNum)):
+        running_loss = 0
+        for images, coordinate in train_loader:
+            # print(images.shape)
+            # ここで images のチャンネル次元を修正する
+            # images = images.permute(1, 0, 2, 3)
+            images, coordinate = images.to(device), coordinate.to(device)
+            # print("images.shape ", images.shape)
+            # print("coordinate.shape ", coordinate.shape)
+            optimizer.zero_grad()
+            outputs = model(images)
+            # print("outputs", outputs)
+            # print('coordinate', coordinate)
+            loss = criterion(outputs, coordinate)
+            # print('loss', loss)
+            running_loss += loss.item()
+            loss.backward()
+            optimizer.step()
+        # print("running loss = ", running_loss)
+        if i%5 == 0:
+            # print("epochNum = ", i)
+            models.append(copy.deepcopy(model))
+        train_loss = running_loss / len(train_loader)
+        # print("epochNum, train_loss = ", i, train_loss)
+        loss_list.append(train_loss)
+
+    # 学習済みのモデルを返す。
+    return models, loss_list
